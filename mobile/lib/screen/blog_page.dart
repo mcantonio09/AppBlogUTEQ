@@ -3,7 +3,8 @@ import '../models/post_model.dart';
 import '../services/post_service.dart';
 import '../widgets/post_card.dart';
 import 'post_detail_page.dart';
-import '../widgets/admin_drawer.dart';
+//import '../widgets/admin_drawer.dart';
+import 'add_blog_page_user.dart';
 
 class BlogPage extends StatefulWidget {
   const BlogPage({super.key});
@@ -62,7 +63,7 @@ class _BlogPageState extends State<BlogPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Text('Mi Blog'),
+            const Text('Aula Abierta UTEQ'),
             Text(
               'Bienvenido, $nombreUsuario',
               style: const TextStyle(fontSize: 12),
@@ -70,6 +71,15 @@ class _BlogPageState extends State<BlogPage> {
           ],
         ),
         actions: [
+          IconButton(
+            tooltip: 'Agregar publicación',
+            icon: const Icon(Icons.note_add),
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const AddBlogPageUsr())).then((_) {
+                recargarPosts();
+              });
+            },
+          ),
           IconButton(
             tooltip: 'Actualizar publicaciones',
             icon: const Icon(Icons.refresh),
@@ -112,9 +122,9 @@ class _BlogPageState extends State<BlogPage> {
           ),
         ],
       ),
-      drawer: (usuarioActual['tipo_usr'] as num? ?? 2).toInt() == 1
-          ? AdminDrawer(usuario: usuarioActual, rutaActual: '/blog')
-          : null,
+      //drawer: (usuarioActual['tipo_usr'] as num? ?? 2).toInt() == 1
+      //    ? AdminDrawer(usuario: usuarioActual, rutaActual: '/blog')
+      //    : null,
       body: FutureBuilder<List<PostModel>>(
         future: futurePosts,
         builder: (context, snapshot) {
@@ -165,7 +175,7 @@ class _BlogPageState extends State<BlogPage> {
             padding: const EdgeInsets.all(16),
             children: [
               const Text(
-                'Bienvenido',
+                'Últimas Publicaciones',
                 style: TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
@@ -174,7 +184,7 @@ class _BlogPageState extends State<BlogPage> {
               ),
               const SizedBox(height: 5),
               const Text(
-                'Descubre nuevas ideas',
+                'Entérate de las últimas publicaciones, eventos académicos y avisos importantes de la comunidad universitaria.',
                 style: TextStyle(
                   fontSize: 16,
                   color: Colors.grey,
