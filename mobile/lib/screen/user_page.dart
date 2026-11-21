@@ -68,7 +68,10 @@ class _UsersPageState extends State<UsersPage> {
     if (!mounted) return;
 
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(mensaje)),
+      SnackBar(
+        backgroundColor: const Color(0xFF2C3E50),
+        content: Text(mensaje),
+      ),
     );
   }
 
@@ -87,8 +90,10 @@ class _UsersPageState extends State<UsersPage> {
         return StatefulBuilder(
           builder: (contextDialogo, actualizarDialogo) {
             return AlertDialog(
+              backgroundColor: Colors.white,
               title: Text(
                 esEdicion ? 'Editar usuario' : 'Nuevo usuario',
+                style: const TextStyle(color: Color(0xFF2C3E50)),
               ),
               content: SingleChildScrollView(
                 child: Column(
@@ -96,23 +101,47 @@ class _UsersPageState extends State<UsersPage> {
                   children: [
                     TextField(
                       controller: nombreController,
+                      style: const TextStyle(color: Color(0xFF212529)),
                       decoration: const InputDecoration(
                         labelText: 'Nombre completo',
+                        labelStyle: TextStyle(color: Color(0xFF7B8A8B)),
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Color(0xFFCED4DA)),
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Color(0xFF2C3E50)),
+                        ),
                       ),
                     ),
                     TextField(
                       controller: correoController,
                       keyboardType: TextInputType.emailAddress,
+                      style: const TextStyle(color: Color(0xFF212529)),
                       decoration: const InputDecoration(
                         labelText: 'Correo electrónico',
+                        labelStyle: TextStyle(color: Color(0xFF7B8A8B)),
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Color(0xFFCED4DA)),
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Color(0xFF2C3E50)),
+                        ),
                       ),
                     ),
                     if (!esEdicion)
                       TextField(
                         controller: passwordController,
                         obscureText: true,
+                        style: const TextStyle(color: Color(0xFF212529)),
                         decoration: const InputDecoration(
                           labelText: 'Contraseña',
+                          labelStyle: TextStyle(color: Color(0xFF7B8A8B)),
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Color(0xFFCED4DA)),
+                          ),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Color(0xFF2C3E50)),
+                          ),
                         ),
                       ),
                   ],
@@ -123,6 +152,9 @@ class _UsersPageState extends State<UsersPage> {
                   onPressed: guardando
                       ? null
                       : () => Navigator.pop(dialogContext, false),
+                  style: TextButton.styleFrom(
+                    foregroundColor: const Color(0xFF7B8A8B),
+                  ),
                   child: const Text('Cancelar'),
                 ),
                 ElevatedButton(
@@ -136,6 +168,7 @@ class _UsersPageState extends State<UsersPage> {
                           if (nombre.isEmpty || correo.isEmpty) {
                             ScaffoldMessenger.of(dialogContext).showSnackBar(
                               const SnackBar(
+                                backgroundColor: Color(0xFFE74C3C),
                                 content: Text('Ingresa nombre y correo'),
                               ),
                             );
@@ -145,6 +178,7 @@ class _UsersPageState extends State<UsersPage> {
                           if (!correo.contains('@')) {
                             ScaffoldMessenger.of(dialogContext).showSnackBar(
                               const SnackBar(
+                                backgroundColor: Color(0xFFE74C3C),
                                 content: Text('Ingresa un correo válido'),
                               ),
                             );
@@ -154,6 +188,7 @@ class _UsersPageState extends State<UsersPage> {
                           if (!esEdicion && password.length < 8) {
                             ScaffoldMessenger.of(dialogContext).showSnackBar(
                               const SnackBar(
+                                backgroundColor: Color(0xFFE74C3C),
                                 content: Text(
                                   'La contraseña debe tener al menos 8 caracteres',
                                 ),
@@ -198,6 +233,7 @@ class _UsersPageState extends State<UsersPage> {
 
                             ScaffoldMessenger.of(dialogContext).showSnackBar(
                               SnackBar(
+                                backgroundColor: const Color(0xFFE74C3C),
                                 content: Text('No se pudo guardar: $e'),
                               ),
                             );
@@ -207,6 +243,10 @@ class _UsersPageState extends State<UsersPage> {
                             });
                           }
                         },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF18BC9C),
+                    foregroundColor: Colors.white,
+                  ),
                   child: Text(
                     esEdicion ? 'Actualizar' : 'Guardar',
                   ),
@@ -233,17 +273,29 @@ class _UsersPageState extends State<UsersPage> {
     final confirmar = await showDialog<bool>(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        title: const Text('Eliminar usuario'),
+        backgroundColor: Colors.white,
+        title: const Text(
+          'Eliminar usuario',
+          style: TextStyle(color: Color(0xFF2C3E50)),
+        ),
         content: Text(
           '¿Deseas eliminar a ${usuario.nombre}?',
+          style: const TextStyle(color: Color(0xFF212529)),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(dialogContext, false),
+            style: TextButton.styleFrom(
+              foregroundColor: const Color(0xFF7B8A8B),
+            ),
             child: const Text('Cancelar'),
           ),
           ElevatedButton(
             onPressed: () => Navigator.pop(dialogContext, true),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFFE74C3C),
+              foregroundColor: Colors.white,
+            ),
             child: const Text('Eliminar'),
           ),
         ],
@@ -267,7 +319,10 @@ class _UsersPageState extends State<UsersPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFF8F9FA),
       appBar: AppBar(
+        backgroundColor: const Color(0xFF2C3E50),
+        foregroundColor: Colors.white,
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
@@ -278,7 +333,10 @@ class _UsersPageState extends State<UsersPage> {
             ),
             Text(
               'Bienvenido, $nombreUsuario',
-              style: const TextStyle(fontSize: 12),
+              style: const TextStyle(
+                fontSize: 12,
+                color: Color(0xFFECF0F1),
+              ),
               overflow: TextOverflow.ellipsis,
             ),
           ],
@@ -294,6 +352,8 @@ class _UsersPageState extends State<UsersPage> {
       drawer: AdminDrawer(usuario: usuarioActual, rutaActual: '/users'),
       floatingActionButton: FloatingActionButton(
         onPressed: () => mostrarFormulario(),
+        backgroundColor: const Color(0xFF18BC9C),
+        foregroundColor: Colors.white,
         child: const Icon(Icons.add),
       ),
       body: FutureBuilder<List<UserModel>>(
@@ -301,7 +361,9 @@ class _UsersPageState extends State<UsersPage> {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(
+                color: Color(0xFF18BC9C),
+              ),
             );
           }
 
@@ -312,20 +374,30 @@ class _UsersPageState extends State<UsersPage> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Icon(Icons.cloud_off, size: 48),
+                    const Icon(
+                      Icons.cloud_off,
+                      size: 48,
+                      color: Color(0xFFE74C3C),
+                    ),
                     const SizedBox(height: 12),
                     const Text(
                       'No se pudieron cargar los usuarios.',
                       textAlign: TextAlign.center,
+                      style: TextStyle(color: Color(0xFF212529)),
                     ),
                     const SizedBox(height: 8),
                     Text(
                       '${snapshot.error}',
                       textAlign: TextAlign.center,
+                      style: const TextStyle(color: Color(0xFF7B8A8B)),
                     ),
                     const SizedBox(height: 12),
                     ElevatedButton(
                       onPressed: recargarUsuarios,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF2C3E50),
+                        foregroundColor: Colors.white,
+                      ),
                       child: const Text('Reintentar'),
                     ),
                   ],
@@ -338,11 +410,15 @@ class _UsersPageState extends State<UsersPage> {
 
           if (usuarios.isEmpty) {
             return const Center(
-              child: Text('No hay usuarios registrados'),
+              child: Text(
+                'No hay usuarios registrados',
+                style: TextStyle(color: Color(0xFF7B8A8B)),
+              ),
             );
           }
 
           return RefreshIndicator(
+            color: const Color(0xFF18BC9C),
             onRefresh: () async {
               final nuevoFuturo = userService.obtenerUsuarios();
 
@@ -359,14 +435,33 @@ class _UsersPageState extends State<UsersPage> {
                 final usuario = usuarios[index];
 
                 return Card(
+                  color: Colors.white,
+                  elevation: 0,
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(6)),
+                    side: BorderSide(color: Color(0xFFDEE2E6)),
+                  ),
                   margin: const EdgeInsets.only(bottom: 10),
                   child: ListTile(
                     leading: const CircleAvatar(
+                      backgroundColor: Color(0xFF2C3E50),
+                      foregroundColor: Colors.white,
                       child: Icon(Icons.person),
                     ),
-                    title: Text(usuario.nombre),
-                    subtitle: Text(usuario.correo),
+                    title: Text(
+                      usuario.nombre,
+                      style: const TextStyle(
+                        color: Color(0xFF212529),
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    subtitle: Text(
+                      usuario.correo,
+                      style: const TextStyle(color: Color(0xFF7B8A8B)),
+                    ),
                     trailing: PopupMenuButton<String>(
+                      color: Colors.white,
+                      iconColor: const Color(0xFF7B8A8B),
                       onSelected: (opcion) {
                         if (opcion == 'editar') {
                           mostrarFormulario(usuario: usuario);
@@ -377,11 +472,17 @@ class _UsersPageState extends State<UsersPage> {
                       itemBuilder: (context) => const [
                         PopupMenuItem(
                           value: 'editar',
-                          child: Text('Editar'),
+                          child: Text(
+                            'Editar',
+                            style: TextStyle(color: Color(0xFF2C3E50)),
+                          ),
                         ),
                         PopupMenuItem(
                           value: 'eliminar',
-                          child: Text('Eliminar'),
+                          child: Text(
+                            'Eliminar',
+                            style: TextStyle(color: Color(0xFFE74C3C)),
+                          ),
                         ),
                       ],
                     ),

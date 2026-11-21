@@ -45,6 +45,7 @@ class _ProfilePageState extends State<ProfilePage> {
     if (id == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
+          backgroundColor: Color(0xFFE74C3C),
           content: Text(
             'No se recibió el identificador del usuario. Vuelve a iniciar sesión.',
           ),
@@ -72,12 +73,18 @@ class _ProfilePageState extends State<ProfilePage> {
       if (data is Map<String, dynamic>) _usuario = Map<String, dynamic>.from(data);
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Perfil actualizado correctamente')),
+        const SnackBar(
+          backgroundColor: Color(0xFF18BC9C),
+          content: Text('Perfil actualizado correctamente'),
+        ),
       );
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('No se pudo actualizar el perfil: $e')),
+        SnackBar(
+          backgroundColor: const Color(0xFFE74C3C),
+          content: Text('No se pudo actualizar el perfil: $e'),
+        ),
       );
     } finally {
       if (mounted) setState(() => _cargando = false);
@@ -87,7 +94,12 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Mi perfil')),
+      backgroundColor: const Color(0xFFF8F9FA),
+      appBar: AppBar(
+        backgroundColor: const Color(0xFF2C3E50),
+        foregroundColor: Colors.white,
+        title: const Text('Mi perfil'),
+      ),
       drawer: AdminDrawer(usuario: _usuario, rutaActual: '/profile'),
       body: Center(
         child: ConstrainedBox(
@@ -95,6 +107,12 @@ class _ProfilePageState extends State<ProfilePage> {
           child: SingleChildScrollView(
             padding: const EdgeInsets.all(20),
             child: Card(
+              color: Colors.white,
+              elevation: 0,
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(6)),
+                side: BorderSide(color: Color(0xFFDEE2E6)),
+              ),
               child: Padding(
                 padding: const EdgeInsets.all(20),
                 child: Form(
@@ -104,13 +122,31 @@ class _ProfilePageState extends State<ProfilePage> {
                     children: [
                       const CircleAvatar(
                         radius: 38,
-                        child: Icon(Icons.person, size: 42),
+                        backgroundColor: Color(0xFF2C3E50),
+                        child: Icon(
+                          Icons.person,
+                          size: 42,
+                          color: Colors.white,
+                        ),
                       ),
                       const SizedBox(height: 18),
                       TextFormField(
                         controller: _nombre,
+                        style: const TextStyle(color: Color(0xFF212529)),
                         decoration: const InputDecoration(
                           labelText: 'Nombre completo',
+                          labelStyle: TextStyle(color: Color(0xFF7B8A8B)),
+                          filled: true,
+                          fillColor: Colors.white,
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Color(0xFFCED4DA)),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Color(0xFF2C3E50),
+                              width: 1.5,
+                            ),
+                          ),
                           border: OutlineInputBorder(),
                         ),
                         validator: (v) => v == null || v.trim().length < 2
@@ -121,8 +157,21 @@ class _ProfilePageState extends State<ProfilePage> {
                       TextFormField(
                         controller: _correo,
                         keyboardType: TextInputType.emailAddress,
+                        style: const TextStyle(color: Color(0xFF212529)),
                         decoration: const InputDecoration(
                           labelText: 'Correo electrónico',
+                          labelStyle: TextStyle(color: Color(0xFF7B8A8B)),
+                          filled: true,
+                          fillColor: Colors.white,
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Color(0xFFCED4DA)),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Color(0xFF2C3E50),
+                              width: 1.5,
+                            ),
+                          ),
                           border: OutlineInputBorder(),
                         ),
                         validator: (v) => v == null || !v.contains('@')
@@ -132,6 +181,14 @@ class _ProfilePageState extends State<ProfilePage> {
                       const SizedBox(height: 20),
                       ElevatedButton.icon(
                         onPressed: _cargando ? null : _guardar,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFF18BC9C),
+                          foregroundColor: Colors.white,
+                          disabledBackgroundColor: const Color(0xFF95A5A6),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                        ),
                         icon: const Icon(Icons.save),
                         label: Text(_cargando ? 'Guardando...' : 'Guardar cambios'),
                       ),

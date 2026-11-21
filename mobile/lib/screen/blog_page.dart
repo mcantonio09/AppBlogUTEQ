@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+
 import '../models/post_model.dart';
 import '../services/post_service.dart';
 import '../widgets/post_card.dart';
 import 'post_detail_page.dart';
-//import '../widgets/admin_drawer.dart';
 import 'add_blog_page_user.dart';
 
 class BlogPage extends StatefulWidget {
@@ -18,6 +18,7 @@ class _BlogPageState extends State<BlogPage> {
   late Future<List<PostModel>> futurePosts;
   String nombreUsuario = 'Usuario';
   Map<String, dynamic> usuarioActual = {
+    'id_usr': 0,
     'nombre': 'Usuario',
     'correo': '',
     'tipo_usr': 2,
@@ -32,11 +33,27 @@ class _BlogPageState extends State<BlogPage> {
       final argumento = ModalRoute.of(context)?.settings.arguments;
 
       if (argumento is Map<String, dynamic>) {
-        usuarioActual = Map<String, dynamic>.from(argumento);
-        nombreUsuario = usuarioActual['nombre']?.toString() ?? 'Usuario';
+        if (argumento['usuario'] is Map<String, dynamic>) {
+          usuarioActual = Map<String, dynamic>.from(argumento['usuario']);
+        } else if (argumento['data'] is Map<String, dynamic>) {
+          usuarioActual = Map<String, dynamic>.from(argumento['data']);
+        } else {
+          usuarioActual = Map<String, dynamic>.from(argumento);
+        }
+
+        nombreUsuario = (usuarioActual['nombre'] ??
+                usuarioActual['nombre_usr'] ??
+                usuarioActual['correo'] ??
+                'Usuario')
+            .toString();
       } else if (argumento is String && argumento.isNotEmpty) {
         nombreUsuario = argumento;
-        usuarioActual = {'nombre': nombreUsuario, 'correo': '', 'tipo_usr': 2};
+        usuarioActual = {
+          'id_usr': 0,
+          'nombre': nombreUsuario,
+          'correo': '',
+          'tipo_usr': 2,
+        };
       }
 
       argumentoLeido = true;
@@ -57,8 +74,17 @@ class _BlogPageState extends State<BlogPage> {
 
   @override
   Widget build(BuildContext context) {
+    final int usuarioIdActual = ((usuarioActual['id_usr'] ??
+                usuarioActual['id'] ??
+                usuarioActual['id_usuario']) as num?)
+            ?.toInt() ??
+        0;
+
     return Scaffold(
+      backgroundColor: const Color(0xFFF8F9FA),
       appBar: AppBar(
+        backgroundColor: const Color(0xFF2C3E50),
+        foregroundColor: Colors.white,
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
@@ -66,7 +92,10 @@ class _BlogPageState extends State<BlogPage> {
             const Text('Aula Abierta UTEQ'),
             Text(
               'Bienvenido, $nombreUsuario',
-              style: const TextStyle(fontSize: 12),
+              style: const TextStyle(
+                fontSize: 12,
+                color: Color(0xFFECF0F1),
+              ),
             ),
           ],
         ),
@@ -75,7 +104,13 @@ class _BlogPageState extends State<BlogPage> {
             tooltip: 'Agregar publicación',
             icon: const Icon(Icons.note_add),
             onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const AddBlogPageUsr())).then((_) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  settings: RouteSettings(arguments: usuarioActual),
+                  builder: (context) => AddBlogPageUsr(usuario: usuarioActual),
+                ),
+              ).then((_) {
                 recargarPosts();
               });
             },
@@ -92,27 +127,36 @@ class _BlogPageState extends State<BlogPage> {
               showDialog(
                 context: context,
                 builder: (dialogContext) => AlertDialog(
-                  title: const Text('Cerrar sesión'),
+                  backgroundColor: Colors.white,
+                  title: const Text(
+                    'Cerrar sesión',
+                    style: TextStyle(color: Color(0xFF2C3E50)),
+                  ),
                   content: const Text(
                     '¿Estás seguro de que deseas cerrar sesión?',
+                    style: TextStyle(color: Color(0xFF212529)),
                   ),
                   actions: [
                     TextButton(
-                      onPressed: () {
-                        Navigator.pop(dialogContext);
-                      },
+                      onPressed: () => Navigator.pop(dialogContext),
+                      style: TextButton.styleFrom(
+                        foregroundColor: const Color(0xFF7B8A8B),
+                      ),
                       child: const Text('Cancelar'),
                     ),
                     ElevatedButton(
                       onPressed: () {
                         Navigator.pop(dialogContext);
-
                         Navigator.pushNamedAndRemoveUntil(
                           context,
                           '/login',
                           (route) => false,
                         );
                       },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFFE74C3C),
+                        foregroundColor: Colors.white,
+                      ),
                       child: const Text('Cerrar sesión'),
                     ),
                   ],
@@ -122,15 +166,14 @@ class _BlogPageState extends State<BlogPage> {
           ),
         ],
       ),
-      //drawer: (usuarioActual['tipo_usr'] as num? ?? 2).toInt() == 1
-      //    ? AdminDrawer(usuario: usuarioActual, rutaActual: '/blog')
-      //    : null,
       body: FutureBuilder<List<PostModel>>(
         future: futurePosts,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(
+                color: Color(0xFF18BC9C),
+              ),
             );
           }
 
@@ -141,20 +184,30 @@ class _BlogPageState extends State<BlogPage> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Icon(Icons.cloud_off, size: 45),
+                    const Icon(
+                      Icons.cloud_off,
+                      size: 45,
+                      color: Color(0xFFE74C3C),
+                    ),
                     const SizedBox(height: 12),
                     const Text(
                       'No fue posible cargar el blog.',
                       textAlign: TextAlign.center,
+                      style: TextStyle(color: Color(0xFF212529)),
                     ),
                     const SizedBox(height: 8),
                     Text(
                       '${snapshot.error}',
                       textAlign: TextAlign.center,
+                      style: const TextStyle(color: Color(0xFF7B8A8B)),
                     ),
                     const SizedBox(height: 12),
                     ElevatedButton(
                       onPressed: recargarPosts,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF2C3E50),
+                        foregroundColor: Colors.white,
+                      ),
                       child: const Text('Reintentar'),
                     ),
                   ],
@@ -167,7 +220,10 @@ class _BlogPageState extends State<BlogPage> {
 
           if (posts.isEmpty) {
             return const Center(
-              child: Text('No hay publicaciones registradas.'),
+              child: Text(
+                'No hay publicaciones registradas.',
+                style: TextStyle(color: Color(0xFF7B8A8B)),
+              ),
             );
           }
 
@@ -179,16 +235,13 @@ class _BlogPageState extends State<BlogPage> {
                 style: TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
-                  color: Color(0xFF08245C),
+                  color: Color(0xFF2C3E50),
                 ),
               ),
               const SizedBox(height: 5),
               const Text(
                 'Entérate de las últimas publicaciones, eventos académicos y avisos importantes de la comunidad universitaria.',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.grey,
-                ),
+                style: TextStyle(fontSize: 16, color: Color(0xFF7B8A8B)),
               ),
               const SizedBox(height: 20),
               ...posts.map(
@@ -197,8 +250,11 @@ class _BlogPageState extends State<BlogPage> {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute<void>(
-                        builder: (context) => PostDetailPage(post: post),
+                      MaterialPageRoute(
+                        builder: (context) => PostDetailPage(
+                          post: post,
+                          usuarioId: usuarioIdActual,
+                        ),
                       ),
                     );
                   },

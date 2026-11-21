@@ -37,7 +37,10 @@ class _LoginPageState extends State<LoginPage> {
 
     if (mensaje != null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(mensaje)),
+        SnackBar(
+          backgroundColor: const Color(0xFFE74C3C),
+          content: Text(mensaje),
+        ),
       );
       return;
     }
@@ -73,6 +76,7 @@ class _LoginPageState extends State<LoginPage> {
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
+            backgroundColor: Color(0xFFF39C12),
             content: Text('El tipo de usuario no tiene acceso asignado'),
           ),
         );
@@ -82,6 +86,7 @@ class _LoginPageState extends State<LoginPage> {
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
+          backgroundColor: const Color(0xFFE74C3C),
           content: Text(
             e.toString().replaceFirst('Exception: ', ''),
           ),
@@ -99,6 +104,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFECF0F1),
       body: AuthBackground(
         child: Center(
           child: AuthCard(
@@ -108,7 +114,7 @@ class _LoginPageState extends State<LoginPage> {
                 const Icon(
                   Icons.lock,
                   size: 65,
-                  color: Color(0xFFC9A227),
+                  color: Color(0xFF18BC9C),
                 ),
                 const SizedBox(height: 15),
                 const Text(
@@ -116,7 +122,7 @@ class _LoginPageState extends State<LoginPage> {
                   style: TextStyle(
                     fontSize: 27,
                     fontWeight: FontWeight.bold,
-                    color: Color(0xFF08245C),
+                    color: Color(0xFF2C3E50),
                   ),
                 ),
                 const SizedBox(height: 25),
@@ -137,6 +143,7 @@ class _LoginPageState extends State<LoginPage> {
                       ocultarPassword
                           ? Icons.visibility_off_outlined
                           : Icons.visibility_outlined,
+                      color: const Color(0xFF7B8A8B),
                     ),
                     onPressed: () {
                       setState(() {
@@ -145,15 +152,7 @@ class _LoginPageState extends State<LoginPage> {
                     },
                   ),
                 ),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: TextButton(
-                    onPressed: () {},
-                    child: const Text(
-                      '¿Olvidaste tu contraseña?',
-                    ),
-                  ),
-                ),
+                
                 const SizedBox(height: 5),
                 PrimaryButton(
                   text: cargando ? 'VALIDANDO...' : 'INGRESAR',
@@ -169,6 +168,7 @@ class _LoginPageState extends State<LoginPage> {
                   children: [
                     const Text(
                       '¿No tienes cuenta?',
+                      style: TextStyle(color: Color(0xFF212529)),
                     ),
                     TextButton(
                       onPressed: () {
@@ -177,6 +177,9 @@ class _LoginPageState extends State<LoginPage> {
                           '/register',
                         );
                       },
+                      style: TextButton.styleFrom(
+                        foregroundColor: const Color(0xFF18BC9C),
+                      ),
                       child: const Text(
                         'Registrarse',
                       ),

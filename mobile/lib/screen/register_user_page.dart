@@ -52,13 +52,16 @@ class _RegisterPageState
 
   if (mensaje != null) {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(mensaje)),
+      SnackBar(
+        backgroundColor: const Color(0xFFE74C3C),
+        content: Text(mensaje),
+      ),
     );
     return;
   }
 
   try {
-    // Petición a la API por medio del servicio[cite: 6]
+    // Petición a la API por medio del servicio
     await authService.registrarUsuario(
       nombre: nombreController.text.trim(),
       correo: correoController.text.trim(),
@@ -70,7 +73,7 @@ class _RegisterPageState
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text('Usuario ${nombreController.text} registrado en la base de datos'),
-        backgroundColor: Colors.green,
+        backgroundColor: const Color(0xFF18BC9C),
       ),
     );
 
@@ -82,7 +85,7 @@ class _RegisterPageState
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(e.toString().replaceAll('Exception: ', '')),
-        backgroundColor: Colors.red,
+        backgroundColor: const Color(0xFFE74C3C),
       ),
     );
   }
@@ -92,7 +95,7 @@ class _RegisterPageState
   Widget build(BuildContext context) {
 
     return Scaffold(
-
+      backgroundColor: const Color(0xFFECF0F1),
       body: AuthBackground(
 
         child: Center(
@@ -110,7 +113,7 @@ class _RegisterPageState
                   Icons.person_add,
                   size: 65,
                   color:
-                      Color(0xFF2196F3),
+                      Color(0xFF18BC9C),
                 ),
 
                 const SizedBox(
@@ -125,7 +128,7 @@ class _RegisterPageState
                     fontWeight:
                         FontWeight.bold,
                     color:
-                        Color(0xFF08245C),
+                        Color(0xFF2C3E50),
                   ),
                 ),
 
@@ -201,6 +204,10 @@ class _RegisterPageState
                       context,
                     );
                   },
+
+                  style: TextButton.styleFrom(
+                    foregroundColor: const Color(0xFF18BC9C),
+                  ),
 
                   child: const Text(
                     'Ya tengo una cuenta',
