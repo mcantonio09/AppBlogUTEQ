@@ -19,7 +19,7 @@ class LoginApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Mi aplicacion',
+      title: 'Aula Abierta UTEQ',
       initialRoute: '/login',
       routes: {
         '/blog':(context) => const BlogPage(),
