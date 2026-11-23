@@ -270,20 +270,7 @@ class _AddBlogPageState extends State<AddBlogPage> {
                       // Botones de selección de imagen
                       Row(
                         children: [
-                          Expanded(
-                            child: OutlinedButton.icon(
-                              onPressed: () => _tomarFoto(ImageSource.camera),
-                              style: OutlinedButton.styleFrom(
-                                foregroundColor: const Color(0xFF2C3E50),
-                                side: const BorderSide(color: Color(0xFF2C3E50)),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(6),
-                                ),
-                              ),
-                              icon: const Icon(Icons.camera_alt),
-                              label: const Text('Cámara'),
-                            ),
-                          ),
+                          
                           const SizedBox(width: 10),
                           Expanded(
                             child: OutlinedButton.icon(
