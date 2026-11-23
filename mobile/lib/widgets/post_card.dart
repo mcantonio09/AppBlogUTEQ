@@ -56,7 +56,7 @@ class PostCard extends StatelessWidget {
                     Text(
                       post.tags,
                       style: const TextStyle(
-                        color: Color(0xFF2196F3),
+                        color: Color.fromARGB(255, 33, 150, 243),
                         fontWeight: FontWeight.bold,
                         fontSize: 13,
                       ),
@@ -68,7 +68,7 @@ class PostCard extends StatelessWidget {
                     style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
-                      color: Color(0xFF08245C),
+                      color: Color.fromARGB(255, 8, 33, 85),
                     ),
                   ),
                   if (post.fechaCreacion.isNotEmpty) ...[

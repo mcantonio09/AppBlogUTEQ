@@ -16,8 +16,8 @@ class AuthBackground extends StatelessWidget {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            Color(0xFF2C3E50), // Azul Bootstrap (--bs-primary)
-            Color(0xFF18BC9C), // Verde Bootstrap (--bs-success)
+            Color.fromARGB(255, 51, 74, 98),
+            Color.fromARGB(255, 20, 169, 139), 
           ],
         ),
       ),

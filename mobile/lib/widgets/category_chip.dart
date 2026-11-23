@@ -31,7 +31,7 @@ class CategoryChip extends StatelessWidget {
         decoration: BoxDecoration(
 
           color: selected
-              ? const Color(0xFF2196F3)
+              ? const Color.fromARGB(255, 32, 143, 234)
               : Colors.grey.shade200,
 
           borderRadius:
@@ -46,7 +46,7 @@ class CategoryChip extends StatelessWidget {
 
             color: selected
                 ? Colors.white
-                : Colors.black87,
+                : const Color.fromARGB(221, 0, 0, 0),
 
             fontWeight:
                 FontWeight.w500,

@@ -23,7 +23,7 @@ class PrimaryButton extends StatelessWidget {
 
         style: ElevatedButton.styleFrom(
           backgroundColor:
-              const Color(0xFF2196F3),
+              const Color.fromARGB(255, 32, 150, 246),
 
           foregroundColor:
               Colors.white,

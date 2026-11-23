@@ -79,7 +79,7 @@ class _AddBlogPageUsrState extends State<AddBlogPageUsr> {
     if (_foto == null || _imagenBytes == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          backgroundColor: Color(0xFFE74C3C),
+          backgroundColor: Color.fromARGB(255, 231, 76, 60),
           content: Text('Por favor, selecciona una imagen'),
         ),
       );
@@ -93,7 +93,7 @@ class _AddBlogPageUsrState extends State<AddBlogPageUsr> {
     if (idUsuario == null || idUsuario.isEmpty || idUsuario == '0') {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          backgroundColor: const Color(0xFFE74C3C),
+          backgroundColor: const Color.fromARGB(255, 231, 76, 60),
           content: Text(
             'No se encontró el id_usr (datos recibidos: $_usuario). Vuelve a iniciar sesión.',
           ),
@@ -129,7 +129,7 @@ class _AddBlogPageUsrState extends State<AddBlogPageUsr> {
         if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            backgroundColor: Color(0xFF18BC9C),
+            backgroundColor: Color.fromARGB(255, 24, 188, 156),
             content: Text('Publicación agregada correctamente'),
           ),
         );
@@ -143,7 +143,7 @@ class _AddBlogPageUsrState extends State<AddBlogPageUsr> {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          backgroundColor: const Color(0xFFE74C3C),
+          backgroundColor: const Color.fromARGB(255, 221, 76, 60),
           content: Text('No se pudo guardar: $e'),
         ),
       );
@@ -161,9 +161,9 @@ class _AddBlogPageUsrState extends State<AddBlogPageUsr> {
         .toString();
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FA),
+      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       appBar: AppBar(
-        backgroundColor: const Color(0xFF2C3E50),
+        backgroundColor: const Color.fromARGB(255, 46, 66, 85),
         foregroundColor: Colors.white,
         title: const Text('Agregar blog'),
       ),
@@ -177,7 +177,7 @@ class _AddBlogPageUsrState extends State<AddBlogPageUsr> {
               elevation: 0,
               shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(6)),
-                side: BorderSide(color: Color(0xFFDEE2E6)),
+                side: BorderSide(color: Color.fromARGB(255, 255, 255, 255)),
               ),
               child: Padding(
                 padding: const EdgeInsets.all(20),
@@ -201,24 +201,24 @@ class _AddBlogPageUsrState extends State<AddBlogPageUsr> {
                         'Autor: $nombreAutor',
                         style: const TextStyle(
                           fontWeight: FontWeight.w500,
-                          color: Color(0xFF7B8A8B),
+                          color: Color.fromARGB(255, 121, 135, 136),
                         ),
                       ),
                       const SizedBox(height: 20),
                       TextFormField(
                         controller: _titulo,
-                        style: const TextStyle(color: Color(0xFF212529)),
+                        style: const TextStyle(color: Color.fromARGB(255, 33, 37, 41)),
                         decoration: const InputDecoration(
                           labelText: 'Título',
-                          labelStyle: TextStyle(color: Color(0xFF7B8A8B)),
+                          labelStyle: TextStyle(color: Color.fromARGB(255, 123, 138, 139)),
                           filled: true,
                           fillColor: Colors.white,
                           enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Color(0xFFCED4DA)),
+                            borderSide: BorderSide(color: Color.fromARGB(255, 206, 212, 218)),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(
-                              color: Color(0xFF2C3E50),
+                              color: Color.fromARGB(255, 40, 56, 72),
                               width: 1.5,
                             ),
                           ),
@@ -232,10 +232,10 @@ class _AddBlogPageUsrState extends State<AddBlogPageUsr> {
                       TextFormField(
                         controller: _resumen,
                         maxLength: 255,
-                        style: const TextStyle(color: Color(0xFF212529)),
+                        style: const TextStyle(color: Color.fromRGBO(33, 37, 41, 1)),
                         decoration: const InputDecoration(
                           labelText: 'Resumen',
-                          labelStyle: TextStyle(color: Color(0xFF7B8A8B)),
+                          labelStyle: TextStyle(color: Color.fromARGB(255, 123, 138, 139)),
                           filled: true,
                           fillColor: Colors.white,
                           enabledBorder: OutlineInputBorder(

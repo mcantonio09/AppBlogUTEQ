@@ -47,12 +47,12 @@ class AdminDrawer extends StatelessWidget {
         child: Column(
           children: [
             UserAccountsDrawerHeader(
-              decoration: const BoxDecoration(color: Color(0xFF08245C)),
+              decoration: const BoxDecoration(color: Color.fromARGB(255, 57, 115, 230)),
               currentAccountPicture: const CircleAvatar(
                 backgroundColor: Colors.white,
                 child: Icon(
                   Icons.admin_panel_settings,
-                  color: Color(0xFF08245C),
+                  color: Color.fromARGB(255, 15, 40, 90),
                   size: 34,
                 ),
               ),
@@ -116,7 +116,7 @@ class AdminDrawer extends StatelessWidget {
     return ListTile(
       leading: Icon(
         icono,
-        color: seleccionado ? const Color(0xFF08245C) : null,
+        color: seleccionado ? const Color.fromARGB(255, 19, 47, 105) : null,
       ),
       title: Text(titulo),
       selected: seleccionado,
