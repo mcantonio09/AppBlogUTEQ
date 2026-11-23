@@ -67,5 +67,6 @@ class ComentarioRespuesta(BaseModel):
     id_blog: int
     comentario: str
     fecha_comentario: datetime
+    nombre_usr: str |  None = None
 
     model_config = ConfigDict(from_attributes=True)

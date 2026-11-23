@@ -43,17 +43,14 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-UPLOAD_DIR = Path("uploads")
-UPLOAD_DIR.mkdir(exist_ok=True)
-app.mount("/uploads", StaticFiles(directory=UPLOAD_DIR), name="uploads")
-
 MAMP_BLOG_IMG_DIR = Path("/Applications/MAMP/htdocs/Proyecto_WEB_blog/img/blog_img")
-if MAMP_BLOG_IMG_DIR.exists():
-    app.mount(
-        "/mamp-blog-img",
-        StaticFiles(directory=MAMP_BLOG_IMG_DIR),
-        name="mamp_blog_img",
-    )
+MAMP_BLOG_IMG_DIR.mkdir(parents=True, exist_ok=True)
+
+app.mount(
+    "/mamp-blog-img",
+    StaticFiles(directory=MAMP_BLOG_IMG_DIR),
+    name="mamp_blog_img",
+)
 
 app.add_middleware(
     CORSMiddleware,
@@ -210,13 +207,12 @@ async def crear_blog(
             )
 
         nombre_archivo = f"{uuid.uuid4().hex}{extension}"
-        ruta_archivo = UPLOAD_DIR / nombre_archivo
+        ruta_archivo = MAMP_BLOG_IMG_DIR / nombre_archivo
 
         with ruta_archivo.open("wb") as destino:
             shutil.copyfileobj(imagen.file, destino)
 
-        base = str(request.base_url).rstrip("/")
-        url_img = f"{base}/uploads/{nombre_archivo}"
+        url_img = f"img/blog_img/{nombre_archivo}"
 
     nueva_publicacion = Blog(
         id_usr=id_usr,
@@ -239,6 +235,8 @@ async def crear_blog(
     db.add(nueva_publicacion)
     db.commit()
     db.refresh(nueva_publicacion)
+
+    nueva_publicacion.url_img = normalizar_url_img(nueva_publicacion.url_img, request)
 
     return nueva_publicacion
 
