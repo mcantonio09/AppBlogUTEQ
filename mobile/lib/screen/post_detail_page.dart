@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 import '../models/post_model.dart';
 import '../models/comentario_model.dart';
 import '../services/comentario_service.dart';
+import '../services/user_service.dart';
 
 class PostDetailPage extends StatefulWidget {
   final PostModel post;
-  final int usuarioId; 
+  final int usuarioId;
 
   const PostDetailPage({
     super.key,
     required this.post,
-    required this.usuarioId, 
+    required this.usuarioId,
   });
 
   @override
@@ -19,9 +20,11 @@ class PostDetailPage extends StatefulWidget {
 
 class _PostDetailPageState extends State<PostDetailPage> {
   final ComentarioService _comentarioService = ComentarioService();
+  final UserService _userService = UserService();
   final TextEditingController _comentarioController = TextEditingController();
 
   List<ComentarioModel> _comentarios = [];
+  Map<int, String> _nombresUsuarios = {};
   bool _cargandoComentarios = true;
   bool _enviandoComentario = false;
   String? _errorComentarios;
@@ -46,14 +49,24 @@ class _PostDetailPageState extends State<PostDetailPage> {
 
     try {
       final todos = await _comentarioService.obtenerComentarios();
-      
       final filtrados = todos
           .where((c) => c.blogId == widget.post.id)
           .toList();
 
+      Map<int, String> mapaNombres = {};
+      try {
+        final usuarios = await _userService.obtenerUsuarios();
+        mapaNombres = {
+          for (final u in usuarios) u.id: u.nombre,
+        };
+      } catch (_) {
+        // Si no se puede consultar la lista de usuarios, se usará el ID como respaldo
+      }
+
       if (!mounted) return;
       setState(() {
         _comentarios = filtrados;
+        _nombresUsuarios = mapaNombres;
         _cargandoComentarios = false;
       });
     } catch (e) {
@@ -83,15 +96,11 @@ class _PostDetailPageState extends State<PostDetailPage> {
       _enviandoComentario = true;
     });
 
-    setState(() {
-      _enviandoComentario = true;
-    });
-
     try {
       final nuevoComentario = ComentarioModel(
-        id: 0, 
+        id: 0,
         comentario: texto,
-        fecha: '', 
+        fecha: '',
         usuarioId: widget.usuarioId,
         blogId: widget.post.id,
       );
@@ -217,7 +226,7 @@ class _PostDetailPageState extends State<PostDetailPage> {
                     ),
                   ),
 
-                  // SECCIÓN DE COMENTARIOS
+                  // --- SECCIÓN DE COMENTARIOS ---
                   const SizedBox(height: 32),
                   const Divider(
                     thickness: 1,
@@ -342,6 +351,10 @@ class _PostDetailPageState extends State<PostDetailPage> {
                       separatorBuilder: (_, __) => const SizedBox(height: 12),
                       itemBuilder: (context, index) {
                         final item = _comentarios[index];
+                        final nombreAutor =
+                            _nombresUsuarios[item.usuarioId] ??
+                                'Usuario #${item.usuarioId}';
+
                         return Container(
                           padding: const EdgeInsets.all(14),
                           decoration: BoxDecoration(
@@ -368,7 +381,7 @@ class _PostDetailPageState extends State<PostDetailPage> {
                                   const SizedBox(width: 10),
                                   Expanded(
                                     child: Text(
-                                      'Usuario #${item.usuarioId}',
+                                      nombreAutor,
                                       style: const TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 14,
